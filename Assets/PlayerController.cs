@@ -4,6 +4,7 @@ public class PlayerController : MonoBehaviour
 {
     public float moveSpeed;
     public float rotationSpeed;
+    public bool inputMethod;
     Rigidbody rb;
 
 
@@ -15,36 +16,39 @@ public class PlayerController : MonoBehaviour
             rb.freezeRotation = true;
         }
     }
+    
+    public void swapInputMethod() {
+        inputMethod = !inputMethod;
+    }
 
     void Update()
     {
-        float xInput = Input.GetAxis("Horizontal");
-        float zInput = Input.GetAxis("Vertical");
+        if (Time.timeScale != 0f)
+        {
+            float xInput = Input.GetAxis("Horizontal");
+            float zInput = Input.GetAxis("Vertical");
+            
+            if (inputMethod) {
+                float yInput = Input.GetAxis("Z Vertical");
+                Vector3 moveDirection = new Vector3(xInput, yInput, zInput);
+                rb.velocity = moveDirection * moveSpeed;
+            } else {
+                
+                float mouseX = Input.GetAxis("Mouse X") * rotationSpeed;
+                float mouseY = Input.GetAxis("Mouse Y") * rotationSpeed;
 
-        float yInput = Input.GetAxis("Z Vertical");
+                transform.Rotate(new Vector3(-mouseY, mouseX, 0f), Space.Self);
 
-        //Vector3 moveDirection = new Vector3(xInput, yInput, zInput);
-        //rb.velocity = moveDirection * moveSpeed;
+                float verticalInput = Input.GetAxis("Vertical");
+                float horizontalInput = Input.GetAxis("Horizontal");
 
-        float mouseX = Input.GetAxis("Mouse X") * rotationSpeed;
-        float mouseY = Input.GetAxis("Mouse Y") * rotationSpeed;
+                Vector3 moveDirection = transform.forward * verticalInput * moveSpeed;
+                Vector3 strafeDirection = transform.right * horizontalInput * moveSpeed;
 
-        transform.Rotate(new Vector3(-mouseY, mouseX, 0f), Space.Self);
+                rb.velocity = moveDirection + strafeDirection;
+            }
 
-        // Apply rotations to the player
-        //Quaternion targetRotation = Quaternion.Euler(-pitch, yaw, 0f);
-        //transform.rotation = targetRotation;
-
-
-        // Movement based on player's orientation
-        float verticalInput = Input.GetAxis("Vertical");
-        float horizontalInput = Input.GetAxis("Horizontal");
-
-        Vector3 moveDirection = transform.forward * verticalInput * moveSpeed;
-        Vector3 strafeDirection = transform.right * horizontalInput * moveSpeed;
-
-        rb.velocity = moveDirection + strafeDirection;
-
+        }
     }
 
 }
