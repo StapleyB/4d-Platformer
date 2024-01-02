@@ -13,7 +13,8 @@ public class CameraFollow : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
+        transform.position = staticlocation;
+        transform.LookAt(staticlook);
     }
 
     void LateUpdate()
@@ -23,11 +24,11 @@ public class CameraFollow : MonoBehaviour
             transform.position = player.transform.position - player.transform.forward * cameraDistance;
             transform.LookAt(player.transform.position, player.transform.up);
         }
-        else
-        {
-            transform.position = staticlocation;
-            transform.LookAt(staticlook);
-        }
+    }
 
+    public void StaticCamera() 
+    {
+        transform.position = staticlocation;
+        transform.LookAt(staticlook);
     }
 }

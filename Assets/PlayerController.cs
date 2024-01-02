@@ -11,13 +11,14 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        if (rb != null )
+        if (rb != null)
         {
             rb.freezeRotation = true;
         }
     }
-    
-    public void swapInputMethod() {
+
+    public void swapInputMethod()
+    {
         inputMethod = !inputMethod;
     }
 
@@ -27,25 +28,26 @@ public class PlayerController : MonoBehaviour
         {
             float xInput = Input.GetAxis("Horizontal");
             float zInput = Input.GetAxis("Vertical");
-            
-            if (inputMethod) {
-                float yInput = Input.GetAxis("Z Vertical");
+            float yInput = Input.GetAxis("Z Vertical");
+
+            if (inputMethod)
+            {
                 Vector3 moveDirection = new Vector3(xInput, yInput, zInput);
                 rb.velocity = moveDirection * moveSpeed;
-            } else {
-                
+            }
+            else
+            {
+
                 float mouseX = Input.GetAxis("Mouse X") * rotationSpeed;
                 float mouseY = Input.GetAxis("Mouse Y") * rotationSpeed;
 
                 transform.Rotate(new Vector3(-mouseY, mouseX, 0f), Space.Self);
 
-                float verticalInput = Input.GetAxis("Vertical");
-                float horizontalInput = Input.GetAxis("Horizontal");
+                Vector3 moveDirection = transform.forward * zInput * moveSpeed;
+                Vector3 strafeDirection = transform.right * xInput * moveSpeed;
+                Vector3 verticalStrafeDireciton = transform.up * yInput * moveSpeed;
 
-                Vector3 moveDirection = transform.forward * verticalInput * moveSpeed;
-                Vector3 strafeDirection = transform.right * horizontalInput * moveSpeed;
-
-                rb.velocity = moveDirection + strafeDirection;
+                rb.velocity = moveDirection + strafeDirection + verticalStrafeDireciton;
             }
 
         }

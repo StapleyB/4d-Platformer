@@ -3,7 +3,8 @@ using TMPro;
 
 public class ControlsButton : MonoBehaviour
 {
-    public PlayerController pc; 
+    public PlayerController pc;
+    public CameraFollow c;
     public TextMeshProUGUI buttonText;
     public bool control;
 
@@ -18,6 +19,9 @@ public class ControlsButton : MonoBehaviour
         control = !control;
         pc.swapInputMethod();
         UpdateButtonText();
+        if (control) {
+            c.StaticCamera();
+        }
     }
 
     void UpdateButtonText()
