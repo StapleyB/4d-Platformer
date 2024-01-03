@@ -25,6 +25,7 @@ public class FourthDimension : MonoBehaviour {
         if (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Z Vertical") != 0 || player.dw != 0)
         {
             target_4d = player.w;
+            current_4d = player.w;
         } else
         {
             target_4d += Input.mouseScrollDelta.y * scale;
