@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class FourthDimension : MonoBehaviour {
     
@@ -10,6 +11,7 @@ public class FourthDimension : MonoBehaviour {
     public float scale;
     public float springiness;
     public Slider bar;
+    public PlayerController player;
 
     void Start()
     {
@@ -20,14 +22,18 @@ public class FourthDimension : MonoBehaviour {
 
     void Update()
     {
-        target_4d += Input.mouseScrollDelta.y * scale;
-
-        if (target_4d < min) { target_4d = min; }
-        if (target_4d > max) { target_4d = max; }
+        if (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Z Vertical") != 0 || player.dw != 0)
+        {
+            target_4d = player.w;
+        } else
+        {
+            target_4d += Input.mouseScrollDelta.y * scale;
+            target_4d = Math.Max(min, target_4d);
+            target_4d = Math.Min(max, target_4d);
+        }
 
         current_4d += (target_4d - current_4d) / (springiness*1f);
-        if (current_4d - min < 0.01) { current_4d = min; }
-        if (max - current_4d < 0.01) { current_4d = max; }
+        if (Math.Abs(current_4d - target_4d) < 0.01) { current_4d = target_4d; }
         bar.value = current_4d;
 
     }

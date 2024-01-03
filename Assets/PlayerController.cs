@@ -7,6 +7,13 @@ public class PlayerController : MonoBehaviour
     public bool inputMethod;
     Rigidbody rb;
 
+    // 4th dimension coordinate
+    public float w;
+    public float dw;
+    public FourthDimension d;
+
+    public float radius_4d = 1f;
+
 
     void Start()
     {
@@ -24,6 +31,14 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+
+        // 4d player render (a little unoptimized)
+        // Function makes the scale of the player drop off in a manner similar to a circle
+        float dist = Mathf.Min(Mathf.Abs(d.current_4d - w), radius_4d);
+        float scale_w = Mathf.Sqrt(1 - Mathf.Pow(dist / radius_4d, 2));
+        transform.localScale = new Vector3(scale_w,scale_w,scale_w);
+
+
         if (Time.timeScale != 0f)
         {
             float xInput = Input.GetAxis("Horizontal");
