@@ -6,4 +6,4 @@ Simple platformer in four dimensions
 
 Currently working on: 4d physics
 
-Progress: Player can jump but no collision yet (or objects)
+Progress: Platforms render but collision not implemented
